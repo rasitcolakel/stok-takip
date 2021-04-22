@@ -77,6 +77,7 @@ export default function Sidebar() {
             component={Link}
             to={item.link}
             onClick={() => setIsDrawerOpen(false)}
+            selected={item.link === currentRoute}
           >
             <ListItemIcon>{item.icon}</ListItemIcon>
             <ListItemText primary={item.text} />
