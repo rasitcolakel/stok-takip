@@ -6,10 +6,12 @@ import ForgotPassword from "./pages/ForgotPassword";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import { Helmet } from "react-helmet";
+import Sidebar from "./components/Sidebar";
 
 export default function App() {
   return (
     <Router>
+      <Sidebar />
       <Switch>
         <Route exact path="/">
           <div>Home PAges</div>
