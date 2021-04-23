@@ -59,7 +59,7 @@ export default function Sidebar() {
   const location = useLocation();
   const currentRoute = location.pathname;
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
-  const [isLogged] = React.useState(true);
+  const [isLogged] = React.useState(localStorage.getItem("user"));
   let drawerItems = [
     {
       text: "Anasayfa",

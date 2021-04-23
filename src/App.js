@@ -3,45 +3,102 @@ import "./App.css";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import "./App.css";
 import { Helmet } from "react-helmet";
 import Sidebar from "./components/Sidebar";
 import Home from "./pages/Home";
+import Logout from "./pages/Logout";
 
 export default function App() {
+  let [auth, setAuth] = React.useState(
+    localStorage.getItem("user") ? true : false
+  );
+  const GuardedRoute = ({ component: Component, auth, ...rest }) => (
+    <Route
+      {...rest}
+      render={(props) =>
+        auth ? <Component {...props} /> : <Redirect to="/login" />
+      }
+    />
+  );
   return (
     <Router>
       <Sidebar />
       <Switch>
-        <Route exact path="/">
-          <Home />
-          <Helmet>
-            <meta charSet="utf-8" />
-            <title>Anasayfa</title>
-          </Helmet>
-        </Route>
-        <Route path="/register">
-          <Register />
-          <Helmet>
-            <meta charSet="utf-8" />
-            <title>Register</title>
-          </Helmet>
-        </Route>
-        <Route path="/login">
-          <Helmet>
-            <meta charSet="utf-8" />
-            <title>Log In</title>
-          </Helmet>
-          <Login />
-        </Route>
-        <Route path="/forgotpassword">
-          <Helmet>
-            <meta charSet="utf-8" />
-            <title>Forgot Password</title>
-          </Helmet>
-          <ForgotPassword />
-        </Route>
+        <GuardedRoute
+          exact
+          path="/"
+          component={() => (
+            <>
+              <Home />
+              <Helmet>
+                <meta charSet="utf-8" />
+                <title>Anasayfa</title>
+              </Helmet>
+            </>
+          )}
+          auth={auth}
+        ></GuardedRoute>
+        <GuardedRoute
+          path="/register"
+          component={() => (
+            <>
+              <Helmet>
+                <meta charSet="utf-8" />
+                <title>Register</title>
+              </Helmet>
+              <Register />
+            </>
+          )}
+          auth={!auth}
+        ></GuardedRoute>
+        <GuardedRoute
+          path="/login"
+          component={() => (
+            <>
+              <Helmet>
+                <meta charSet="utf-8" />
+                <title>Log In</title>
+              </Helmet>
+              <Login />
+            </>
+          )}
+          auth={!auth}
+        ></GuardedRoute>
+
+        <GuardedRoute
+          path="/forgotpassword"
+          component={() => (
+            <>
+              <Helmet>
+                <meta charSet="utf-8" />
+                <title>Forgot Password</title>
+              </Helmet>
+              <ForgotPassword />
+            </>
+          )}
+          auth={!auth}
+        />
+
+        <GuardedRoute
+          path="/logout"
+          component={() => (
+            <>
+              <Helmet>
+                <meta charSet="utf-8" />
+                <title>Logging Out</title>
+              </Helmet>
+              <Logout />
+            </>
+          )}
+          auth={auth}
+        />
         <Route path="*">
           <Helmet>
             <meta charSet="utf-8" />

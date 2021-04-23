@@ -127,6 +127,10 @@ export default function Login() {
               className={classes.margin}
               fullWidth
               disabled={values.email === "" || values.password === ""}
+              onClick={() => {
+                localStorage.setItem("user", true);
+                window.location.href = "/";
+              }}
             >
               Login
             </Button>
