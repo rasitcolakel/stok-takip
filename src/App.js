@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import { Helmet } from "react-helmet";
 import Sidebar from "./components/Sidebar";
+import Home from "./pages/Home";
 
 export default function App() {
   return (
@@ -14,7 +15,7 @@ export default function App() {
       <Sidebar />
       <Switch>
         <Route exact path="/">
-          <div>Home PAges</div>
+          <Home />
           <Helmet>
             <meta charSet="utf-8" />
             <title>Anasayfa</title>
