@@ -14,6 +14,9 @@ import { Helmet } from "react-helmet";
 import Sidebar from "./components/Sidebar";
 import Home from "./pages/Home";
 import Logout from "./pages/Logout";
+import Stores from "./pages/Stores";
+import Categories from "./pages/Categories";
+import Products from "./pages/Products";
 
 export default function App() {
   let [auth, setAuth] = React.useState(
@@ -85,7 +88,45 @@ export default function App() {
           )}
           auth={!auth}
         />
-
+        <GuardedRoute
+          path="/stores"
+          component={() => (
+            <>
+              <Helmet>
+                <meta charSet="utf-8" />
+                <title>Stores</title>
+              </Helmet>
+              <Stores />
+            </>
+          )}
+          auth={auth}
+        />
+        <GuardedRoute
+          path="/products"
+          component={() => (
+            <>
+              <Helmet>
+                <meta charSet="utf-8" />
+                <title>Products</title>
+              </Helmet>
+              <Products />
+            </>
+          )}
+          auth={auth}
+        />
+        <GuardedRoute
+          path="/categories"
+          component={() => (
+            <>
+              <Helmet>
+                <meta charSet="utf-8" />
+                <title>Categories</title>
+              </Helmet>
+              <Categories />
+            </>
+          )}
+          auth={auth}
+        />
         <GuardedRoute
           path="/logout"
           component={() => (
