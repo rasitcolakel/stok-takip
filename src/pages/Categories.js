@@ -167,6 +167,11 @@ export default function Categories() {
                 Vazgeç
               </Button>
               <Button
+                disabled={
+                  Object.values(editing).some((x) => x === null || x === "")
+                    ? true
+                    : false
+                }
                 onClick={() => (editing.id ? editItem(editing.id) : newItem())}
                 color="primary"
               >
