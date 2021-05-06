@@ -14,6 +14,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import { IconButton } from "@material-ui/core";
+import stores from "../db/stores";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -47,28 +48,7 @@ export default function Stores() {
     },
   ];
 
-  const [datas, setDatas] = useState([
-    {
-      id: 1,
-      name: "Hizmet Deposu",
-      address: "İstanbul",
-      description: "İstanbul depo",
-    },
-
-    {
-      id: 2,
-      name: "Hizmet Deposu2",
-      address: "Hatay",
-      description: "Hatay depo",
-    },
-
-    {
-      id: 3,
-      name: "Hizmet3 Deposu2",
-      address: "Adana",
-      description: "Adana depo",
-    },
-  ]);
+  const [datas, setDatas] = useState(stores);
 
   let deleteItem = (id) => {
     let temp = datas.filter((data) => data.id !== id);

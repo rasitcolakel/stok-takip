@@ -14,6 +14,11 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import { IconButton } from "@material-ui/core";
+import products from "../db/products";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import categories from "../db/categories";
+import stores from "../db/stores";
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -42,37 +47,14 @@ export default function Products() {
     { text: "Açıklama", value: "description" },
     { text: "Kategori", value: "category" },
     { text: "Depo", value: "store" },
+    { text: "Adet", value: "count" },
     {
       text: "İşlemler",
       value: "actions",
     },
   ];
 
-  const [datas, setDatas] = useState([
-    {
-      id: 1,
-      name: "Hizmet Deposu",
-      description: "İstanbul depo",
-      store: "İstanbul",
-      category: "Telefon",
-    },
-
-    {
-      id: 2,
-      name: "Hizmet Deposu2",
-      description: "Hatay depo",
-      store: "Hatay",
-      category: "Telefon",
-    },
-
-    {
-      id: 3,
-      name: "Hizmet3 Deposu2",
-      description: "Adana depo",
-      store: "Adana",
-      category: "Telefon",
-    },
-  ]);
+  const [datas, setDatas] = useState(products);
 
   let deleteItem = (id) => {
     let temp = datas.filter((data) => data.id !== id);
@@ -91,6 +73,7 @@ export default function Products() {
     description: "",
     store: "",
     category: "",
+    count: "",
   };
   const [editing, setEditing] = React.useState(params);
   const openModal = (id) => {
@@ -116,7 +99,8 @@ export default function Products() {
     setEditing(params);
     setOpen(false);
   };
-  console.log(editing);
+
+  const [catValues, SetCatValues] = React.useState(categories);
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
@@ -155,19 +139,78 @@ export default function Products() {
               <form autoComplete="off">
                 {Object.keys(editing).map((key) => (
                   <>
-                    {key !== "id" && (
-                      <TextField
-                        margin="dense"
-                        id={key}
-                        name={key}
-                        label={columns.map((x) => {
-                          if (x.value === key) return x.text;
-                        })}
-                        value={editing[key]}
-                        onChange={handleChange}
-                        fullWidth
-                      />
-                    )}
+                    {key !== "id" &&
+                      (key === "category" ? (
+                        <Autocomplete
+                          id="kategori-box-demo"
+                          options={categories}
+                          value={categories.find((s) => s.id === editing[key])}
+                          getOptionLabel={(option) => option.name}
+                          noOptionsText={
+                            <Button
+                              style={{ width: "100%" }}
+                              onMouseDown={() => alert("123")}
+                              color="primary"
+                            >
+                              <AddBoxIcon
+                                fontSize={"large"}
+                                style={{ margin: "0 10px" }}
+                              />
+                              Yeni Ekle
+                            </Button>
+                          }
+                          onChange={(event, value) =>
+                            setEditing({
+                              ...editing,
+                              category: value.id,
+                            })
+                          }
+                          renderInput={(params) => (
+                            <TextField {...params} label="Kategori" />
+                          )}
+                        />
+                      ) : key === "store" ? (
+                        <Autocomplete
+                          id="depo-box-demo"
+                          options={stores}
+                          getOptionLabel={(option) => option.name}
+                          value={stores.find((s) => s.id === editing[key])}
+                          noOptionsText={
+                            <Button
+                              style={{ width: "100%" }}
+                              onMouseDown={() => alert("123")}
+                              color="primary"
+                            >
+                              <AddBoxIcon
+                                fontSize={"large"}
+                                style={{ margin: "0 10px" }}
+                              />
+                              Yeni Ekle
+                            </Button>
+                          }
+                          renderInput={(params) => (
+                            <TextField {...params} label="Store" />
+                          )}
+                          onChange={(event, value) =>
+                            setEditing({
+                              ...editing,
+                              store: value.id,
+                            })
+                          }
+                        />
+                      ) : (
+                        <TextField
+                          margin="dense"
+                          id={key}
+                          name={key}
+                          label={columns.map((x) => {
+                            if (x.value === key) return x.text;
+                          })}
+                          value={editing[key]}
+                          onChange={handleChange}
+                          fullWidth
+                        />
+                      ))}
                   </>
                 ))}
               </form>

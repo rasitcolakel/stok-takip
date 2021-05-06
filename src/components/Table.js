@@ -10,7 +10,8 @@ import Paper from "@material-ui/core/Paper";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import IconButton from "@material-ui/core/IconButton";
-
+import stores from "../db/stores";
+import categories from "../db/categories";
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
@@ -48,6 +49,10 @@ export default function Tabke({ columns, datas, deleteItem, openModal }) {
                           <DeleteIcon />
                         </IconButton>
                       </>
+                    ) : column.value === "store" ? (
+                      stores.find((x) => x.id === data[column.value]).name
+                    ) : column.value === "category" ? (
+                      categories.find((x) => x.id === data[column.value]).name
                     ) : (
                       data[column.value]
                     )}
