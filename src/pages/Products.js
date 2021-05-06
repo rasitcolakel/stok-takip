@@ -144,7 +144,9 @@ export default function Products() {
                         <Autocomplete
                           id="kategori-box-demo"
                           options={categories}
-                          value={categories.find((s) => s.id === editing[key])}
+                          value={
+                            categories.find((s) => s.id === editing[key]) || ""
+                          }
                           getOptionLabel={(option) => option.name}
                           noOptionsText={
                             <Button
@@ -171,10 +173,12 @@ export default function Products() {
                         />
                       ) : key === "store" ? (
                         <Autocomplete
-                          id="depo-box-demo"
+                          id="store-box-demo"
                           options={stores}
                           getOptionLabel={(option) => option.name}
-                          value={stores.find((s) => s.id === editing[key])}
+                          value={
+                            stores.find((s) => s.id === editing[key]) || ""
+                          }
                           noOptionsText={
                             <Button
                               style={{ width: "100%" }}
@@ -188,15 +192,55 @@ export default function Products() {
                               Yeni Ekle
                             </Button>
                           }
-                          renderInput={(params) => (
-                            <TextField {...params} label="Store" />
-                          )}
                           onChange={(event, value) =>
                             setEditing({
                               ...editing,
                               store: value.id,
                             })
                           }
+                          renderInput={(params) => (
+                            <TextField {...params} label="Store" />
+                          )}
+                        />
+                      ) : key === "name" ? (
+                        <Autocomplete
+                          id="name-box-demo"
+                          options={datas}
+                          getOptionLabel={(option) => option.name}
+                          value={
+                            editing
+                              ? editing
+                              : datas.find((s) => s.id === editing[key])
+                          }
+                          noOptionsText={
+                            editing ? (
+                              <Button
+                                style={{ width: "100%" }}
+                                onMouseDown={() =>
+                                  setEditing({ ...editing, id: uuidv4() })
+                                }
+                                color="primary"
+                              >
+                                Yeni Ekle
+                              </Button>
+                            ) : (
+                              ""
+                            )
+                          }
+                          renderInput={(params) => (
+                            <TextField {...params} label="Ad" />
+                          )}
+                          onChange={(event, value) =>
+                            setEditing({
+                              ...value,
+                            })
+                          }
+                          onInputChange={(event, newInputValue) => {
+                            setEditing({
+                              ...editing,
+                              name: newInputValue,
+                            });
+                          }}
                         />
                       ) : (
                         <TextField
